@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PRaSUM TECHNOLOGIES | High-Impact Evolution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Premium Design Tokens */
+        :root {
+            --p-orange: #FF9500;
+            --p-orange-deep: #FF5C00;
+            --p-blue: #1A5499;
+            --p-blue-light: #2D5BFF;
+            --p-glow-orange: rgba(255, 149, 0, 0.6);
+            --p-glow-blue: rgba(26, 84, 153, 0.4);
+            
+            /* Dark Theme - The Kinetic Monolith */
+            --bg-deep: #000000;
+            --bg-card: rgba(12, 12, 16, 0.85);
+            --bg-glass: rgba(4, 4, 6, 0.92);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --text-main: #FFFFFF;
+            --text-sub: #9494B8;
+            --accent-gradient: linear-gradient(135deg, #FF9500 0%, #1A5499 100%);
+            --flame-gradient: linear-gradient(to top, #FF5C00, #FF9500);
+            
+            --radius-main: 32px;
+            --transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-float: 0 40px 100px -20px rgba(0, 0, 0, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-deep: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --bg-glass: rgba(255, 255, 255, 0.9);
+            --border-glass: rgba(15, 23, 42, 0.08);
+            --text-main: #0F172A;
+            --text-sub: #64748B;
+            --shadow-float: 0 30px 60px -15px rgba(15, 23, 42, 0.1);
+        }
+
+        /* Global Resets */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        body { 
+            background-color: var(--bg-deep); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif;
+            transition: background-color 1s ease;
+        }
+
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 900; letter-spacing: -0.05em; }
+        .container { max-width: 1350px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 5; }
+        .gradient-text { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Animation Keyframes */
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(5deg); } }
+        @keyframes pulse-glow { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.1); } }
+        @keyframes reveal { from { opacity: 0; transform: translateY(40px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
+        .reveal { opacity: 0; }
+        .reveal.active { animation: reveal 1s forwards cubic-bezier(0.16, 1, 0.3, 1); }
+
+        /* Multi-Layered Animated Background */
+        .bg-assets { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+        
+        /* Grid Overlay */
+        .tech-grid {
+            position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
+            background-image: 
+                linear-gradient(rgba(255,149,0,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,149,0,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            transform: perspective(1000px) rotateX(60deg);
+            animation: gridMove 30s linear infinite;
+        }
+        @keyframes gridMove { from { transform: perspective(1000px) rotateX(60deg) translateY(0); } to { transform: perspective(1000px) rotateX(60deg) translateY(80px); } }
+
+        /* Plasma Blobs */
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(120px);
+            opacity: 0.2; mix-blend-mode: screen;
+            animation: blobOrbit 20s infinite linear;
+        }
+        .blob-1 { width: 600px; height: 600px; background: var(--p-orange); top: -10%; right: -10%; animation-duration: 25s; }
+        .blob-2 { width: 500px; height: 500px; background: var(--p-blue); bottom: -5%; left: -10%; animation-duration: 30s; }
+
+        @keyframes blobOrbit {
+            0% { transform: translate(0, 0); }
+            33% { transform: translate(100px, 50px); }
+            66% { transform: translate(-50px, 100px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Floating Objects */
+        .floating-obj {
+            position: absolute; background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20%; animation: float 10s infinite ease-in-out;
+        }
+
+        /* Premium Header */
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 2rem 0; transition: var(--transition); }
+        header.scrolled { background: var(--bg-glass); backdrop-filter: blur(40px); padding: 1.2rem 0; border-bottom: 1px solid var(--border-glass); box-shadow: var(--shadow-float); }
+
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo img { height: 55px; filter: drop-shadow(0 0 10px var(--p-glow-orange)); }
+        .logo-text span:first-child { color: var(--p-orange); font-size: 1.8rem; font-weight: 900; letter-spacing: -1.5px; }
+        .logo-text span:last-child { color: var(--p-blue); font-size: 1.1rem; font-weight: 700; display: block; opacity: 0.8; }
+
+        .nav-links { display: flex; list-style: none; gap: 4rem; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 600; opacity: 0.5; transition: var(--transition); font-size: 1rem; }
+        .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--p-orange); text-shadow: 0 0 15px var(--p-glow-orange); }
+
+        /* Hero Section */
+        .hero {
+            position: relative; height: 100vh; display: flex; align-items: center;
+            overflow: hidden; padding-top: 100px;
+        }
+        .hero-content { text-align: center; max-width: 1100px; margin: 0 auto; z-index: 10; }
+        .hero h1 { font-size: clamp(3.5rem, 10vw, 6.5rem); line-height: 0.95; margin-bottom: 2.5rem; }
+        .hero p { color: var(--text-sub); font-size: 1.7rem; margin-bottom: 4.5rem; max-width: 900px; margin-inline: auto; font-weight: 400; line-height: 1.4; }
+
+        /* Interactive Particle Container */
+        .hero-visuals { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+        .ember {
+            position: absolute; background: var(--p-orange); border-radius: 50%; opacity: 0;
+            animation: sparkRise 8s linear infinite;
+        }
+        @keyframes sparkRise {
+            0% { transform: translateY(110vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translate(calc(var(--rand-x) * 1px), 50vh) scale(1.5); opacity: 0.8; filter: blur(2px) drop-shadow(0 0 15px var(--p-orange)); }
+            100% { transform: translate(calc(var(--rand-x) * 2px), -20vh) scale(0.2); opacity: 0; }
+        }
+
+        /* Buttons */
+        .btn { 
+            padding: 1.5rem 4.5rem; border-radius: 100px; font-weight: 800; text-decoration: none; 
+            display: inline-flex; align-items: center; gap: 15px; transition: var(--transition); 
+            font-size: 1.2rem; cursor: pointer; border: none;
+        }
+        .btn-primary { background: var(--flame-gradient); color: white; box-shadow: 0 25px 50px -10px var(--p-glow-orange); }
+        .btn-primary:hover { transform: translateY(-8px) scale(1.05); box-shadow: 0 35px 70px -10px var(--p-glow-orange); }
+        .btn-secondary { background: var(--bg-card); border: 1px solid var(--border-glass); color: var(--text-main); backdrop-filter: blur(20px); }
+        .btn-secondary:hover { background: var(--p-blue); color: white; transform: translateY(-5px); }
+
+        /* Content Sections */
+        .section-header { text-align: center; margin-bottom: 8rem; }
+        .section-header h2 { font-size: 4rem; margin-bottom: 2rem; }
+
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 3.5rem; }
+        .card { 
+            background: var(--bg-card); border: 1px solid var(--border-glass); padding: 5rem 3.5rem; 
+            border-radius: var(--radius-main); transition: var(--transition); position: relative; 
+            overflow: hidden;
+        }
+        .card:hover { transform: translateY(-25px); border-color: var(--p-orange); box-shadow: var(--shadow-float); }
+        .card-icon { font-size: 4.5rem; margin-bottom: 3rem; display: inline-block; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Ecosystem */
+        .eco-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .eco-card { 
+            background: var(--bg-glass); padding: 4rem 3rem; border-radius: 40px; 
+            border-bottom: 8px solid var(--p-blue); transition: var(--transition); 
+        }
+        .eco-card:hover { border-bottom-color: var(--p-orange); transform: scale(1.05); background: rgba(255,149,0,0.05); }
+
+        /* Footer */
+        footer { padding: 150px 0 80px; background: #000000; border-top: 1px solid var(--border-glass); position: relative; z-index: 10; }
+        
+        /* Mobile Adjustments */
+        @media (max-width: 1024px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 4.5rem; }
+            .hero p { font-size: 1.3rem; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Full-Graphics Background Assets -->
+    <div class="bg-assets">
+        <div class="tech-grid"></div>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <!-- Moving Glass Objects -->
+        <div class="floating-obj" style="width: 100px; height: 100px; top: 20%; left: 10%; animation-delay: 0s;"></div>
+        <div class="floating-obj" style="width: 150px; height: 150px; bottom: 15%; right: 15%; animation-delay: 2s;"></div>
+        <div class="floating-obj" style="width: 80px; height: 80px; top: 60%; left: 80%; animation-delay: 4s;"></div>
+    </div>
+
+    <!-- Preloader -->
+    <div class="loading-screen" id="loadingScreen">
+        <img src="log.png" alt="PRaSUM Logo" class="logo-pulse" height="180">
+        <p style="margin-top: 50px; color: var(--p-orange); letter-spacing: 10px; font-weight: 900; text-transform: uppercase; font-size: 1.2rem;">System Initializing</p>
+    </div>
+
+    <!-- Smart Header -->
+    <header id="mainHeader">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <img src="log.png" alt="PRaSUM Logo">
+                    <div class="logo-text">
+                        <span style="font-family: 'Plus Jakarta Sans', sans-serif;">PRaSUM</span>
+                        <span>TECHNOLOGIES</span>
+                    </div>
+                </a>
+
+                <ul class="nav-links">
+                    <li><a href="#home" class="active">Nexus</a></li>
+                    <li><a href="#domains">Intelligence</a></li>
+                    <li><a href="#ecosystem">Ecosystem</a></li>
+                    <li><a href="#contact">Inquiry</a></li>
+                </ul>
+
+                <div style="display: flex; align-items: center; gap: 2.5rem;">
+                    <button class="theme-btn" id="themeToggle" style="background:none; border:none; cursor:pointer; color:inherit; font-size: 1.8rem;"><i class="fas fa-moon"></i></button>
+                    <a href="#contact" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1rem;">Launch Partner</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Interactive Hero -->
+    <section class="hero" id="home">
+        <div class="hero-visuals">
+            <div class="embers" id="emberContainer"></div>
+        </div>
+
+        <div class="container">
+            <div class="hero-content reveal">
+                <span style="color: var(--p-orange); font-weight: 900; letter-spacing: 12px; text-transform: uppercase; font-size: 1.1rem; display: block; margin-bottom: 3rem; opacity: 0.8;">Impact • Value • Growth</span>
+                <h1>Engineering <span class="gradient-text">Scalable Future</span></h1>
+                <p>Developing hyper-performance software ecosystems designed to bridge the chasm between institutional intuition and cognitive precision.</p>
+                <div class="btn-container">
+                    <a href="#domains" class="btn btn-primary">Strategic Domains <i class="fas fa-bolt"></i></a>
+                    <a href="#ecosystem" class="btn btn-secondary">Global Ecosystem</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Intelligence Domains -->
+    <section id="domains" style="padding: 200px 0;">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Our <span class="gradient-text">Core Architectures</span></h2>
+                <p style="font-size: 1.4rem; opacity: 0.6;">Deploying the digital framework for global-scale enterprise operations.</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card reveal">
+                    <div class="card-icon"><i class="fas fa-brain"></i></div>
+                    <h3>Cognitive AI</h3>
+                    <p style="font-size: 1.2rem; color: var(--text-sub);">Developing multi-layered neural networks that translate raw institutional datasets into competitive predictive advantages.</p>
+                </div>
+                <div class="card reveal">
+                    <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+                    <h3>Deep Stack IoT</h3>
+                    <p style="font-size: 1.2rem; color: var(--text-sub);">Synchronizing high-precision hardware with autonomous control layers to create self-managing industrial ecosystems.</p>
+                </div>
+                <div class="card reveal">
+                    <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Secure Ledger</h3>
+                    <p style="font-size: 1.2rem; color: var(--text-sub);">Architecting immutable, high-throughput transaction environments with military-grade encryption and decentralized stability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Integrated Ecosystem -->
+    <section id="ecosystem" style="padding: 200px 0; background: rgba(26, 84, 153, 0.08);">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>The <span class="gradient-text">PRaSUM Stack</span></h2>
+                <p style="font-size: 1.4rem; opacity: 0.6;">A unified hierarchy of platforms connecting hardware, intelligence, and growth.</p>
+            </div>
+
+            <div class="eco-grid">
+                <div class="eco-card reveal">
+                    <span class="eco-sanskrit">PRaSUM Yantra</span>
+                    <h3 style="margin: 1.5rem 0;">Industrial Robotics</h3>
+                    <p style="font-size: 1.1rem; color: var(--text-sub);">High-fidelity automation frameworks for next-generation factory deployment.</p>
+                </div>
+                <div class="eco-card reveal">
+                    <span class="eco-sanskrit">PRaSUM Chaitanya</span>
+                    <h3 style="margin: 1.5rem 0;">Adaptive Cognitive</h3>
+                    <p style="font-size: 1.1rem; color: var(--text-sub);">Intelligent engines that evolve in real-time alongside your organization's data flow.</p>
+                </div>
+                <div class="eco-card reveal">
+                    <span class="eco-sanskrit">PRaSUM Bodha</span>
+                    <h3 style="margin: 1.5rem 0;">Knowledge Nexus</h3>
+                    <p style="font-size: 1.1rem; color: var(--text-sub);">Redefining global institutional learning through immersive, intelligent EdTech platforms.</p>
+                </div>
+                <div class="eco-card reveal">
+                    <span class="eco-sanskrit">PRaSUM Shakti</span>
+                    <h3 style="margin: 1.5rem 0;">Hyper-Compute</h3>
+                    <p style="font-size: 1.1rem; color: var(--text-sub);">The backbone cloud infrastructure powering massive-scale global operations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Inquiry Section -->
+    <section id="contact" style="padding: 200px 0;">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="reveal">
+                    <h2 style="font-size: 5rem; line-height: 1; margin-bottom: 4rem;">Ready to <span class="gradient-text">Architect?</span></h2>
+                    <p style="color: var(--text-sub); font-size: 1.6rem; line-height: 1.6; margin-bottom: 6rem;">Join forces with senior technology researchers to navigate the frontier of the digital era.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 5rem;">
+                        <div style="display: flex; gap: 40px; align-items: center;">
+                            <div style="width: 100px; height: 100px; border-radius: 30px; background: var(--p-blue); display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem;"><i class="fas fa-paper-plane"></i></div>
+                            <div><p style="font-size: 1.1rem; opacity: 0.6; text-transform: uppercase; font-weight: 900; letter-spacing: 3px;">Direct Nexus</p><strong style="font-size: 1.6rem;">prasum.core@gmail.com</strong></div>
+                        </div>
+                        <div style="display: flex; gap: 40px; align-items: center;">
+                            <div style="width: 100px; height: 100px; border-radius: 30px; background: var(--p-orange); display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem;"><i class="fas fa-phone-alt"></i></div>
+                            <div><p style="font-size: 1.1rem; opacity: 0.6; text-transform: uppercase; font-weight: 900; letter-spacing: 3px;">Consultation</p><strong style="font-size: 1.6rem;">+91 91604 25798</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-container reveal">
+                    <form id="contactForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem;">
+                            <div class="input-group">
+                                <label>Organization Identity</label>
+                                <input type="text" required placeholder="Partner Name">
+                            </div>
+                            <div class="input-group">
+                                <label>Secure Contact</label>
+                                <input type="email" required placeholder="name@domain.com">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Domain Focus</label>
+                            <select>
+                                <option>Cognitive Systems</option>
+                                <option>Cloud Infrastructure</option>
+                                <option>Robotics / IoT</option>
+                                <option>FinTech Modernization</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>The Vision</label>
+                            <textarea rows="7" placeholder="Briefly define your project scope..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: 30px; justify-content: center;">Commence Consultation <i class="fas fa-rocket"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Footer -->
+    <footer>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5rem;">
+                <div class="logo">
+                    <img src="log.png" alt="PRaSUM" height="75">
+                    <div class="logo-text"><span>PRaSUM</span><span>TECHNOLOGIES</span></div>
+                </div>
+                <div style="display: flex; gap: 5rem;">
+                    <a href="#" style="color: var(--text-sub); transition: 0.3s;"><i class="fab fa-linkedin fa-3x"></i></a>
+                    <a href="#" style="color: var(--text-sub); transition: 0.3s;"><i class="fab fa-twitter fa-3x"></i></a>
+                    <a href="#" style="color: var(--text-sub); transition: 0.3s;"><i class="fab fa-instagram fa-3x"></i></a>
+                </div>
+            </div>
+            <div style="margin-top: 120px; padding-top: 60px; border-top: 1px solid var(--border-glass); text-align: center;">
+                <p style="color: var(--text-sub); font-size: 1.2rem; margin-bottom: 20px; font-weight: 700;">© 2024 PRaSUM TECHNOLOGIES. Global Elite Innovation.</p>
+                <p style="color: var(--text-sub); font-size: 1rem; opacity: 0.3;">Bengaluru | Kurnool | Ananthapuramu | AIC-SKU ATAL INCUBATION CENTER</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Global Action FAB -->
+    <button class="fab-trigger" id="fabBtn" title="Inquire Now"><i class="fas fa-bolt"></i></button>
+
+    <script>
+        // High-Density Spark Particle System
+        const emberContainer = document.getElementById('emberContainer');
+        const createEmber = () => {
+            if (document.documentElement.getAttribute('data-theme') === 'light') return;
+
+            const ember = document.createElement('div');
+            ember.className = 'ember';
+            
+            const size = Math.random() * 15 + 5; 
+            const left = Math.random() * 100;
+            const randX = (Math.random() - 0.5) * 400; 
+            const duration = Math.random() * 4 + 7; // Slow and cinematic
+            const delay = Math.random() * 5;
+
+            ember.style.width = `${size}px`;
+            ember.style.height = `${size}px`;
+            ember.style.left = `${left}%`;
+            ember.style.setProperty('--rand-x', randX);
+            ember.style.animationDuration = `${duration}s`;
+            ember.style.animationDelay = `${delay}s`;
+
+            emberContainer.appendChild(ember);
+            setTimeout(() => ember.remove(), (duration + delay) * 1000);
+        };
+        setInterval(createEmber, 40);
+
+        // Parallax Effect for Background Shapes
+        document.addEventListener('mousemove', (e) => {
+            const blobs = document.querySelectorAll('.blob');
+            const floating = document.querySelectorAll('.floating-obj');
+            const x = (e.clientX - window.innerWidth/2) / 30;
+            const y = (e.clientY - window.innerHeight/2) / 30;
+
+            blobs.forEach(b => b.style.transform = `translate(${x * 0.5}px, ${y * 0.5}px)`);
+            floating.forEach(f => f.style.transform = `translate(${x}px, ${y}px) rotate(${x}deg)`);
+        });
+
+        // Intersection Observer for Reveal Animations
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Header and Theme Control
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        const themeBtn = document.getElementById('themeToggle');
+        themeBtn.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            themeBtn.innerHTML = target === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            if (target === 'light') emberContainer.innerHTML = '';
+        });
+
+        // Preloader Logic
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('fade-out');
+            }, 2500);
+        });
+
+        // Feedback Logic
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const box = document.createElement('div');
+            box.style = "position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:10001; display:flex; justify-content:center; align-items:center; color:white;";
+            box.innerHTML = "<div style='text-align:center;'><i class='fas fa-check-circle' style='color:#FF9500; font-size:6rem; margin-bottom:2rem;'></i><h2 style='font-size:3rem;'>Mission Accepted.</h2><p style='font-size:1.2rem; opacity:0.5; margin-top:1rem;'>Architects are analyzing your vision.</p></div>";
+            document.body.appendChild(box);
+            setTimeout(() => box.remove(), 3500);
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>

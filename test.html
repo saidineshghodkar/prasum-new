@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PRaSUM TECHNOLOGIES | Elite Digital Architecture</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Design System */
+        :root {
+            --p-orange: #FF9500;
+            --p-orange-deep: #FF5C00;
+            --p-blue: #1A5499;
+            --p-blue-light: #2D5BFF;
+            --p-glow-orange: rgba(255, 149, 0, 0.6);
+            
+            /* Dark Theme - High Fidelity Monolith */
+            --bg-deep: #000000;
+            --bg-card: rgba(15, 15, 20, 0.85);
+            --bg-glass: rgba(5, 5, 5, 0.95);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --text-main: #FFFFFF;
+            --text-sub: #94A3B8;
+            --accent-gradient: linear-gradient(135deg, #FF9500 0%, #1A5499 100%);
+            --flame-gradient: linear-gradient(to top, #FF5C00, #FF9500);
+            
+            --radius-main: 32px;
+            --transition-smooth: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-premium: 0 40px 100px -20px rgba(0, 0, 0, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-deep: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --bg-glass: rgba(255, 255, 255, 0.92);
+            --border-glass: rgba(15, 23, 42, 0.08);
+            --text-main: #0F172A;
+            --text-sub: #475569;
+            --shadow-premium: 0 30px 60px -15px rgba(15, 23, 42, 0.08);
+        }
+
+        /* Core Layout */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        body { 
+            background-color: var(--bg-deep); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif;
+            transition: background-color 1s ease;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 900; letter-spacing: -0.04em; }
+        .container { max-width: 1350px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 10; }
+        .gradient-text { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Graphics & Animations */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes reveal-up { from { opacity: 0; transform: translateY(50px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
+        .reveal { opacity: 0; transition: var(--transition-smooth); }
+        .reveal.active { animation: reveal-up 1s forwards; }
+
+        /* Full-Bleed Background Assets */
+        .master-bg { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+        .moving-blob {
+            position: absolute; border-radius: 50%; filter: blur(120px);
+            opacity: 0.2; mix-blend-mode: screen; animation: orbit 25s infinite linear;
+        }
+        [data-theme="light"] .moving-blob { mix-blend-mode: multiply; opacity: 0.06; }
+        .blob-1 { width: 700px; height: 700px; background: var(--p-orange); top: -15%; right: -10%; }
+        .blob-2 { width: 600px; height: 600px; background: var(--p-blue); bottom: -10%; left: -10%; animation-delay: -5s; }
+
+        @keyframes orbit { 
+            0% { transform: translate(0, 0) scale(1); } 
+            33% { transform: translate(150px, 80px) scale(1.1); } 
+            66% { transform: translate(-80px, 120px) scale(0.9); } 
+            100% { transform: translate(0, 0) scale(1); } 
+        }
+
+        /* Header Navigation */
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 2.2rem 0; transition: var(--transition-smooth); }
+        header.scrolled { background: var(--bg-glass); backdrop-filter: blur(40px); padding: 1.2rem 0; border-bottom: 1px solid var(--border-glass); box-shadow: var(--shadow-premium); }
+
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo img { height: 55px; filter: drop-shadow(0 0 12px var(--p-glow-orange)); transition: 0.4s; }
+        .logo:hover img { transform: scale(1.1) rotate(-3deg); }
+        .logo-text span:first-child { color: var(--p-orange); font-size: 1.8rem; font-weight: 900; letter-spacing: -1.5px; }
+        .logo-text span:last-child { color: var(--p-blue); font-size: 1.1rem; font-weight: 700; display: block; opacity: 0.8; }
+
+        .nav-links { display: flex; list-style: none; gap: 4rem; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 600; opacity: 0.5; transition: 0.3s; font-size: 1rem; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--p-orange); transition: 0.3s; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--p-orange); }
+
+        /* Hero Section */
+        .hero {
+            position: relative; height: 100vh; display: flex; align-items: center;
+            overflow: hidden; padding-top: 100px; transition: background 1s ease;
+        }
+
+        /* Light Mode High-Graphics Tech Image */
+        [data-theme="light"] .hero {
+            background-image: 
+                linear-gradient(to right, #F8FAFC 25%, rgba(248, 250, 252, 0.85) 50%, rgba(248, 250, 252, 0.1) 100%),
+                url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center;
+        }
+
+        [data-theme="dark"] .hero { background-color: #000000; box-shadow: inset 0 -100px 150px -50px rgba(255, 149, 0, 0.2); }
+
+        .hero-bg-logo {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 85vh; height: 85vh; object-fit: contain; opacity: 0.04;
+            z-index: 2; pointer-events: none; display: none; filter: grayscale(1) brightness(1.5);
+        }
+        [data-theme="dark"] .hero-bg-logo { display: block; }
+
+        .hero-content { text-align: center; max-width: 1150px; margin: 0 auto; z-index: 20; position: relative; }
+        [data-theme="light"] .hero-content { text-align: left; margin-left: 0; }
+
+        .hero h1 { font-size: clamp(3.8rem, 10vw, 6.8rem); line-height: 0.9; margin-bottom: 2.5rem; }
+        .hero p { color: var(--text-sub); font-size: 1.7rem; margin-bottom: 4.5rem; max-width: 900px; margin-inline: auto; font-weight: 400; }
+        [data-theme="light"] .hero p { margin-inline: 0; }
+
+        /* "Digital Forge" Spark Engine */
+        .hero-visuals { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+        .ember {
+            position: absolute; background: var(--p-orange); border-radius: 50%; opacity: 0;
+            animation: sparkRise 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        @keyframes sparkRise {
+            0% { transform: translateY(115vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translate(calc(var(--rand-x) * 1px), 50vh) scale(1.6); opacity: 0.9; filter: blur(2px) drop-shadow(0 0 15px var(--p-orange)); }
+            100% { transform: translate(calc(var(--rand-x) * 2px), -25vh) scale(0.3); opacity: 0; }
+        }
+
+        /* Buttons & Interactions */
+        .btn-group { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; }
+        [data-theme="light"] .btn-group { justify-content: flex-start; }
+
+        .btn { 
+            padding: 1.6rem 4.8rem; border-radius: 100px; font-weight: 900; text-decoration: none; 
+            display: inline-flex; align-items: center; gap: 15px; transition: var(--transition-smooth); 
+            font-size: 1.3rem; border: none; cursor: pointer; letter-spacing: 0.5px;
+        }
+        .btn-primary { background: var(--flame-gradient); color: white; box-shadow: 0 20px 50px -10px var(--p-glow-orange); }
+        .btn-primary:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 35px 80px -15px var(--p-glow-orange); }
+        .btn-secondary { background: var(--bg-card); border: 1px solid var(--border-glass); color: var(--text-main); backdrop-filter: blur(20px); }
+        .btn-secondary:hover { background: var(--p-blue); color: white; transform: translateY(-5px); border-color: var(--p-blue); }
+
+        /* High-Impact Content Blocks */
+        .section-header { text-align: center; margin-bottom: 10rem; }
+        .section-header h2 { font-size: 4.5rem; margin-bottom: 2rem; }
+
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 4rem; }
+        .service-card { 
+            background: var(--bg-card); border: 1px solid var(--border-glass); padding: 6rem 4rem; 
+            border-radius: var(--radius-main); transition: var(--transition-smooth); position: relative; 
+            overflow: hidden;
+        }
+        .service-card:hover { transform: translateY(-30px); border-color: var(--p-orange); box-shadow: var(--shadow-premium); }
+        .service-icon { font-size: 5rem; margin-bottom: 3rem; display: inline-block; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Architecture Stack */
+        .stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .stack-card { 
+            background: var(--bg-glass); padding: 4rem 3rem; border-radius: 48px; 
+            border-bottom: 10px solid var(--p-blue); transition: 0.5s; 
+        }
+        .stack-card:hover { border-bottom-color: var(--p-orange); transform: scale(1.08); background: rgba(255, 149, 0, 0.05); }
+        .stack-sanskrit { color: var(--p-orange); font-weight: 900; letter-spacing: 5px; font-size: 1rem; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+
+        /* Premium Form */
+        .contact-box { display: grid; grid-template-columns: 1fr 1.4fr; gap: 7rem; align-items: start; }
+        .form-glass { 
+            background: var(--bg-card); padding: 6rem 4.5rem; border-radius: 60px; 
+            border: 1px solid var(--border-glass); box-shadow: var(--shadow-premium); 
+        }
+        [data-theme="light"] .form-glass { background: #FFFFFF; }
+        
+        .input-wrap { margin-bottom: 2.5rem; }
+        .input-wrap label { display: block; margin-bottom: 1.2rem; font-weight: 800; font-size: 1.1rem; }
+        input, select, textarea { 
+            width: 100%; padding: 1.6rem; background: rgba(15, 23, 42, 0.03); 
+            border: 1px solid var(--border-glass); border-radius: 25px; color: var(--text-main); 
+            font-family: inherit; font-size: 1.1rem; transition: 0.4s;
+        }
+        input:focus, textarea:focus { border-color: var(--p-orange); outline: none; background: #FFFFFF; color: #000000; }
+
+        /* Footer System */
+        footer { padding: 180px 0 100px; background: #000000; border-top: 1px solid var(--border-glass); position: relative; z-index: 10; }
+        [data-theme="light"] footer { background: #F1F5F9; border-top: 1px solid rgba(0,0,0,0.05); }
+
+        .theme-btn { 
+            background: var(--bg-card); border: 1px solid var(--border-glass); 
+            color: var(--text-main); width: 60px; height: 60px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+        }
+
+        @media (max-width: 1024px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 4rem; }
+            .hero-content { text-align: center !important; }
+            .btn-group { justify-content: center !important; }
+            .contact-box { grid-template-columns: 1fr; gap: 4rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Graphical Layer -->
+    <div class="master-bg">
+        <div class="moving-blob blob-1"></div>
+        <div class="moving-blob blob-2"></div>
+    </div>
+
+    <!-- Preloader -->
+    <div class="loading-screen" id="loadingScreen">
+        <img src="log.png" alt="Logo" class="logo-pulse" height="180">
+        <p style="margin-top: 40px; color: var(--p-orange); letter-spacing: 12px; font-weight: 900; text-transform: uppercase;">PRaSUM MASTER SYSTEM</p>
+    </div>
+
+    <!-- Navigation Header -->
+    <header id="mainHeader">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <img src="log.png" alt="PRaSUM">
+                    <div class="logo-text">
+                        <span>PRaSUM</span>
+                        <span>TECHNOLOGIES</span>
+                    </div>
+                </a>
+
+                <ul class="nav-links">
+                    <li><a href="#home" class="active">Nexus</a></li>
+                    <li><a href="#intelligence">Intelligence</a></li>
+                    <li><a href="#ecosystem">Ecosystem</a></li>
+                    <li><a href="#contact">Consult</a></li>
+                </ul>
+
+                <div style="display: flex; align-items: center; gap: 3rem;">
+                    <button class="theme-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+                    <a href="#contact" class="btn btn-primary" style="padding: 1.1rem 3.5rem; font-size: 1.1rem;">Elite Access</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Master Hero -->
+    <section class="hero" id="home">
+        <!-- Subliminal Watermark -->
+        <img src="log.png" alt="" class="hero-bg-logo">
+        
+        <div class="hero-visuals">
+            <div class="embers" id="emberContainer"></div>
+        </div>
+
+        <div class="container">
+            <div class="hero-content reveal">
+                <span style="color: var(--p-orange); font-weight: 900; letter-spacing: 15px; text-transform: uppercase; font-size: 1.2rem; display: block; margin-bottom: 3.5rem;">Impact • Value • Growth</span>
+                <h1>Engineering the <br><span class="gradient-text">Scalable Intelligence</span></h1>
+                <p>Deploying elite cognitive software ecosystems designed to bridge the fundamental gap between institutional intuition and machine precision.</p>
+                <div class="btn-group">
+                    <a href="#intelligence" class="btn btn-primary">Strategic Domains <i class="fas fa-bolt"></i></a>
+                    <a href="#ecosystem" class="btn btn-secondary">The Ecosystem</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Neural Architectures -->
+    <section id="intelligence" style="padding: 220px 0;">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Elite <span class="gradient-text">Architectures</span></h2>
+                <p style="font-size: 1.6rem; opacity: 0.6; max-width: 800px; margin: 0 auto;">Pioneering the digital foundation for massive global enterprise operations.</p>
+            </div>
+
+            <div class="service-grid">
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-brain"></i></div>
+                    <h3>Cognitive AI</h3>
+                    <p style="font-size: 1.3rem; color: var(--text-sub);">Developing adaptive neural layers that transform dormant institutional datasets into high-velocity predictive intelligence.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-cube"></i></div>
+                    <h3>Autonomous IoT</h3>
+                    <p style="font-size: 1.3rem; color: var(--text-sub);">Fusing sensory hardware with decentralized control layers to create self-healing industrial monitoring ecosystems.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-key"></i></div>
+                    <h3>Secure Ledger</h3>
+                    <p style="font-size: 1.3rem; color: var(--text-sub);">Architecting tamper-proof, high-throughput transaction environments with military-grade encryption and protocol stability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrated Stack -->
+    <section id="ecosystem" style="padding: 220px 0; background: rgba(26, 84, 153, 0.08);">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>The <span class="gradient-text">PRaSUM Hierarchy</span></h2>
+                <p style="font-size: 1.6rem; opacity: 0.6;">A unified stack connecting physical hardware, cognitive intelligence, and exponential growth.</p>
+            </div>
+
+            <div class="stack-grid">
+                <div class="stack-card reveal">
+                    <span class="stack-sanskrit">PRaSUM Yantra</span>
+                    <h3 style="margin: 1.5rem 0;">Industrial Robotics</h3>
+                    <p style="font-size: 1.1rem; color: var(--text-sub);">Advanced automation frameworks for mission-critical industrial deployment.</p>
+                </div>
+                <div class="stack-card reveal">
+                    <span class="stack-sanskrit">PRaSUM Chaitanya</span>
+                    <h3 style="margin: 1.5rem 0;">Adaptive Cognition</h3>
+                    <p style="font-size: 1.1rem; color: var(--text-sub);">Neural engines that learn, evolve, and optimize alongside your organizational flow.</p>
+                </div>
+                <div class="stack-card reveal">
+                    <span class="stack-sanskrit">PRaSUM Bodha</span>
+                    <h3 style="margin: 1.5rem 0;">Knowledge Nexus</h3>
+                    <p style="font-size: 1.1rem; color: var(--text-sub);">Transforming institutional education through hyper-immersive EdTech platforms.</p>
+                </div>
+                <div class="stack-card reveal">
+                    <span class="stack-sanskrit">PRaSUM Shakti</span>
+                    <h3 style="margin: 1.5rem 0;">Hyper-Compute</h3>
+                    <p style="font-size: 1.1rem; color: var(--text-sub);">The core backbone cloud infrastructure powering massive-scale global operations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consultation Hub -->
+    <section id="contact" style="padding: 220px 0;">
+        <div class="container">
+            <div class="contact-box">
+                <div class="reveal">
+                    <h2 style="font-size: 5.5rem; line-height: 1; margin-bottom: 4rem;">Ready to <br><span class="gradient-text">Launch?</span></h2>
+                    <p style="color: var(--text-sub); font-size: 1.8rem; line-height: 1.6; margin-bottom: 6rem;">Partner with our senior architects to navigate the digital frontier.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 6rem;">
+                        <div style="display: flex; gap: 40px; align-items: center;">
+                            <div style="width: 110px; height: 110px; border-radius: 35px; background: var(--p-blue); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;"><i class="fas fa-paper-plane"></i></div>
+                            <div><p style="font-size: 1.2rem; opacity: 0.6; text-transform: uppercase; font-weight: 900; letter-spacing: 4px;">Direct Link</p><strong style="font-size: 1.8rem;">prasum.core@gmail.com</strong></div>
+                        </div>
+                        <div style="display: flex; gap: 40px; align-items: center;">
+                            <div style="width: 110px; height: 110px; border-radius: 35px; background: var(--p-orange); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;"><i class="fas fa-headset"></i></div>
+                            <div><p style="font-size: 1.2rem; opacity: 0.6; text-transform: uppercase; font-weight: 900; letter-spacing: 4px;">Senior Support</p><strong style="font-size: 1.8rem;">+91 91604 25798</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-glass reveal">
+                    <form id="contactForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; margin-bottom: 3.5rem;">
+                            <div class="input-wrap">
+                                <label>Organization Name</label>
+                                <input type="text" required placeholder="Partner Entity">
+                            </div>
+                            <div class="input-wrap">
+                                <label>Secure Endpoint</label>
+                                <input type="email" required placeholder="name@domain.com">
+                            </div>
+                        </div>
+                        <div class="input-wrap">
+                            <label>Domain of Engagement</label>
+                            <select>
+                                <option>Cognitive Systems</option>
+                                <option>Full-Stack Infrastructure</option>
+                                <option>Robotics & IoT</option>
+                                <option>FinTech / Ledger Modernization</option>
+                            </select>
+                        </div>
+                        <div class="input-wrap">
+                            <label>Project Vision</label>
+                            <textarea rows="8" placeholder="Define the scale and scope of your evolution..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: 35px; justify-content: center;">Initiate Consultation <i class="fas fa-rocket"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Master Footer -->
+    <footer>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5rem;">
+                <div class="logo">
+                    <img src="log.png" alt="PRaSUM" height="85">
+                    <div class="logo-text"><span>PRaSUM</span><span>TECHNOLOGIES</span></div>
+                </div>
+                <div style="display: flex; gap: 6rem;">
+                    <a href="#" style="color: var(--text-sub); transition: 0.4s;"><i class="fab fa-linkedin fa-4x"></i></a>
+                    <a href="#" style="color: var(--text-sub); transition: 0.4s;"><i class="fab fa-twitter fa-4x"></i></a>
+                    <a href="#" style="color: var(--text-sub); transition: 0.4s;"><i class="fab fa-instagram fa-4x"></i></a>
+                </div>
+            </div>
+            <div style="margin-top: 150px; padding-top: 70px; border-top: 1px solid var(--border-glass); text-align: center;">
+                <p style="color: var(--text-sub); font-size: 1.3rem; margin-bottom: 25px; font-weight: 800;">© 2024 PRaSUM TECHNOLOGIES. Global Innovation Leader.</p>
+                <p style="color: var(--text-sub); font-size: 1.1rem; opacity: 0.3;">Bengaluru | Kurnool | Ananthapuramu | AIC-SKU ATAL INCUBATION CENTER</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Optimized High-Density Spark Engine
+        const emberContainer = document.getElementById('emberContainer');
+        const createEmber = () => {
+            if (document.documentElement.getAttribute('data-theme') === 'light') return;
+
+            const ember = document.createElement('div');
+            ember.className = 'ember';
+            
+            const size = Math.random() * 18 + 6; 
+            const left = Math.random() * 100;
+            const randX = (Math.random() - 0.5) * 450; 
+            const duration = Math.random() * 3 + 6; 
+            const delay = Math.random() * 4;
+
+            ember.style.width = `${size}px`;
+            ember.style.height = `${size}px`;
+            ember.style.left = `${left}%`;
+            ember.style.setProperty('--rand-x', randX);
+            ember.style.animationDuration = `${duration}s`;
+            ember.style.animationDelay = `${delay}s`;
+
+            emberContainer.appendChild(ember);
+            setTimeout(() => ember.remove(), (duration + delay) * 1000);
+        };
+        setInterval(createEmber, 40);
+
+        // Advanced Reveal-on-Scroll Logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Smart Sticky Header
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            header.classList.toggle('scrolled', window.scrollY > 60);
+
+            // Active Link Highlighting
+            const links = document.querySelectorAll('.nav-links a');
+            const sections = document.querySelectorAll('section');
+            let current = 'home';
+            sections.forEach(s => {
+                const sTop = s.offsetTop;
+                if (window.scrollY >= sTop - 300) current = s.getAttribute('id');
+            });
+            links.forEach(l => {
+                l.classList.remove('active');
+                if (l.getAttribute('href').includes(current)) l.classList.add('active');
+            });
+        });
+
+        // Theme Management
+        const themeBtn = document.getElementById('themeToggle');
+        themeBtn.addEventListener('click', () => {
+            const target = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            themeBtn.innerHTML = target === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            if (target === 'light') emberContainer.innerHTML = '';
+        });
+
+        // Termination of Loading Phase
+        window.addEventListener('load', () => {
+            setTimeout(() => document.getElementById('loadingScreen').classList.add('fade-out'), 2500);
+        });
+
+        // Custom Submission Feedback
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const modal = document.createElement('div');
+            modal.style = "position:fixed; inset:0; background:rgba(0,0,0,0.98); z-index:10001; display:flex; justify-content:center; align-items:center; color:white;";
+            modal.innerHTML = "<div style='text-align:center;'><i class='fas fa-check-circle' style='color:#FF9500; font-size:7rem; margin-bottom:2.5rem;'></i><h2 style='font-size:4rem;'>Transmission Successful.</h2><p style='font-size:1.4rem; opacity:0.5; margin-top:1.5rem;'>Senior architects are reviewing your vision.</p></div>";
+            document.body.appendChild(modal);
+            setTimeout(() => modal.remove(), 4000);
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>
